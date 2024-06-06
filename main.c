@@ -44,10 +44,10 @@
 #define ALAW_OPT   'a'
 #define MULAW_OPT  'm'
 
-#define LINEAR          0x000e000
-#define ALAW            0x0000e00
-#define MULAW           0x000ee00
-#define ENCODING_MASK   0x000fe00
+#define LINEAR          0x0001000
+#define ALAW            0x0002000
+#define MULAW           0x0003000
+#define ENCODING_MASK   0x000f000
 
 #define SET_ENCODING(o,e) (o |= e)
 
