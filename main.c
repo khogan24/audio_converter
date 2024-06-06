@@ -47,7 +47,7 @@
 #define LINEAR          0x000e000
 #define ALAW            0x0000e00
 #define MULAW           0x000ee00
-#define ENCODING_MASK   0x000ff00
+#define ENCODING_MASK   0x000fe00
 
 #define SET_ENCODING(o,e) (o |= e)
 
