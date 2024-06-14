@@ -1,3 +1,5 @@
+#ifndef __DEF__
+#define __DEF__
 /** Defines*/
 #define bool uint8_t
 
@@ -18,4 +20,33 @@
     eprintf("-h,--h,-help,--help\t view this screen\n");\
 } while(0)
 
+
+/** http://soundfile.sapp.org/doc/WaveFormat/ */
+typedef struct _wave_header{
+    struct {
+        char     r_id[4];   // should be 'RIFF'
+        uint32_t r_size;    // size of everything after riff_section
+        uint32_t r_fmt;     // should be 'data'
+    }riff_section;
+
+    struct {
+        char     f_id[4];           // should be 'fmt ', note the trailing space
+        uint32_t f_size;            // size of of the rest of the fmt_section
+        uint16_t f_encoding;
+        uint16_t f_numchan;         // number of channels, 1 = mono, 2 = stereo, etc
+        uint32_t f_samplerate;
+        uint32_t f_byterate;        // SampleRate * NumChannels * BitsPerSample/8
+        uint16_t f_blockalign;      // NumChannels * BitsPerSample/8
+        uint16_t f_bitspersample;   // NumChannels * BitsPerSample/8
+    }fmt_section;
+
+    struct {
+        char     d_id[4]; // should be 'data'
+        uint32_t d_size;  // size of the res of the file
+    }data_section;
+} wave_header_t;
+
 #define IGNORE(x) (void)x
+
+
+#endif // end __DEF__

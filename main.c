@@ -22,13 +22,10 @@ typedef enum{
     mulaw  = MULAW,
 } opt_encode_t;
 
-typedef enum{
-    todo = 0,
-} wave_encoding_t;
+#define PCM 16 // linear quantization
 
-typedef struct _wave_header{
-
-} wave_header_t;
+#define MONO 1
+#define STEREO 2
 
 /** Functions */
 

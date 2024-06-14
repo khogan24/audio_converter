@@ -3,6 +3,9 @@
  * John Wiley & Sons, pps 98-111 and 472-476.
  * */
 
+#ifndef __AUDIO__
+#define __AUDIO__
+
 const int BIAS = 0x84;		/* Bias for linear code. */
 const int CLIP = 8159;
 const int SIGN_BIT = 0x80;	/* Sign bit for a A-law byte. */
@@ -38,6 +41,7 @@ uint16_t alaw2linear( uint8_t a_val){
 	return ((a_val & SIGN_BIT) ? t : -t);
 }
 
+#if 0 // this no work, maybe try learning mu law?
 /**
  * linear2alaw()
  * converts 2 bytes of linear PCM to 1 bye of alaw
@@ -70,3 +74,7 @@ unsigned char linear2alaw( uint16_t pcm_val){
 		return (aval ^ mask);
 	}
 }
+
+#endif // end if 0
+
+#endif // __AUDIO__

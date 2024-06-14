@@ -19,3 +19,8 @@ in this order
 6: add linear interpolation to upsample by a factor of 2
 
 7: try out upsampling of different algorithms and odd factors
+
+
+# I found some audio to test, these are links
+# thanks to whomever put these online
+https://uweb.engr.arizona.edu/%7E429rns/audiofiles/blues2.wav
