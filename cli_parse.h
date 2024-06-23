@@ -124,7 +124,10 @@ const int set_convert_opt_from_str(char *argv, uint32_t *opts){
  * 
 */
 const int parse_opts(char *argv, uint32_t *opts, char *ofname ){
-    if(!argv) return -1;
+    if(!argv){
+        return -1;
+    } 
+        
     
     const uint32_t len = strlen(argv);
     IGNORE(len);

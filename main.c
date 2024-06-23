@@ -22,7 +22,7 @@ typedef enum{
     mulaw  = MULAW,
 } opt_encode_t;
 
-#define PCM 16 // linear quantization
+#define PCM 1 // linear quantization
 
 #define MONO 1
 #define STEREO 2
@@ -38,16 +38,46 @@ const int encode(char *buf, uint32_t *size, opt_encode_t newenc){
 }
 
 const int _upscale(char *buf, uint32_t *size){
+    if(!buf || !size) return -1;
+    
+    //upscaling, 2x the buffer
+    uint8_t *new_buf = (uint8_t*)malloc((*size) * 2);
+    if(!new_buf) return -1;
+
+    new_buf[0] = buf[0];
+    for(int i = 1; i < *size; ++i){
+        new_buf[i] = (buf[i-1] + buf[i])/2;
+        new_buf[i+1] = buf[i];
+    }
+
     return 0;
 }
 
 const int upscale(char *buf, uint32_t *size, const uint32_t factor){
+    wave_header_t *wave;
     IGNORE(buf);
     IGNORE(size);
     IGNORE(factor);
     // do this by a factor of 2 every time.
     // ignore odd requests for now
-    return _upscale(buf,size);
+
+    if(!buf || !size) return -1;
+    wave = (wave_header_t*)buf;
+    
+    switch (wave->fmt_section.f_encoding)
+    {
+    case PCM:
+        /* code */
+        if(factor == 2){
+            return _upscale(buf,size);
+        }
+        break;
+    
+    default:
+        eprintf("Un-handled encoding %d\n",wave->fmt_section.f_encoding);
+        break;
+    }
+    return -1;
 }
 
 int main(int argc, char *argv[]){
@@ -111,6 +141,7 @@ int main(int argc, char *argv[]){
         factor = GET_FACTOR(opts);
         if(upscale(fbuf,&size,factor) != 0)
             goto fail_general;
+        goto success;
     }
 
     if(DOES_ENCODE(opts)){
@@ -138,4 +169,8 @@ fail_stat:
     free(fname);
 
     return 1;
+    success:
+    eprintf("Done!\n");
+    free(fbuf);
+    return 0;
 }

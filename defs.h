@@ -20,19 +20,21 @@
     eprintf("-h,--h,-help,--help\t view this screen\n");\
 } while(0)
 
-
 /** http://soundfile.sapp.org/doc/WaveFormat/ */
 typedef struct _wave_header{
     struct {
         char     r_id[4];   // should be 'RIFF'
         uint32_t r_size;    // size of everything after riff_section
-        uint32_t r_fmt;     // should be 'data'
+        char    r_fmt[4];   // should be 'WAVE'
     }riff_section;
 
+
+    // TODO : f_size is variable
+    // so the size of this sub-struct is also variable
     struct {
         char     f_id[4];           // should be 'fmt ', note the trailing space
         uint32_t f_size;            // size of of the rest of the fmt_section
-        uint16_t f_encoding;
+        uint16_t f_encoding;        // audio format
         uint16_t f_numchan;         // number of channels, 1 = mono, 2 = stereo, etc
         uint32_t f_samplerate;
         uint32_t f_byterate;        // SampleRate * NumChannels * BitsPerSample/8
